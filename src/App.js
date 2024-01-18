@@ -18,14 +18,14 @@ import {
 } from "react-router-dom";
 
 function App() {
-  const page_url = 'https://client-7vwy.onrender.com';
+  // const page_url = 'https://client-7vwy.onrender.com';
   return (
-    <Router basename={page_url}>
+    <Router>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route
-          path="$/post/d5oIQfpmBvyZLfIxONigsnoat6GtqCEq/"
+          path="/post/d5oIQfpmBvyZLfIxONigsnoat6GtqCEq/"
           element={<LoginCommand keyType={"d5oIQfpmBvyZLfIxONigsnoat6GtqCEq"} blogID={""} />}
         />
         <Route
