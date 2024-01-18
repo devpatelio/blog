@@ -6,11 +6,16 @@ const LoginCommand = ({ keyType, blogID }) => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
+  const loginUserName = process.env.REACT_APP_LOGIN_USERNAME;
+  const loginUserPass = process.env.REACT_APP_LOGIN_PASSWORD;
+  // console.log('Username:', loginUserName);
+  // console.log('Password:', loginUserPass);
+
   const handleLogin = (e) => {
     e.preventDefault();
 
     // Replace the condition with actual authentication logic
-    if (username === 'devpatelio' && password === '1104AInnov8!') {
+    if (username === loginUserName && password === loginUserPass) {
       // Redirect to the special URL after successful login
       navigate(`/${keyType}/${blogID}`);
     } else {

@@ -5,6 +5,10 @@ import ListBlogs from "./pages/ListBlogs";
 import bigCardStyle from "./pages/bigCard";
 
 function Home() {
+  const userName = process.env.REACT_APP_LOGIN_USERNAME;
+  const userPass = process.env.REACT_APP_LOGIN_PASSWORD;
+  console.log('Username:', userName);
+  console.log('Password:', userPass);
     return (
         <div className="App flex flex-col min-h-screen">
           <header className="bg-gray-900 text-white p-4 flex justify-between items-center whitespace-no-wrap">
