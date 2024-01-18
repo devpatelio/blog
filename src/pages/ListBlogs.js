@@ -2,16 +2,20 @@ import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import EditPost from "../EditPost";
 import DeletePost from "../DeletePost";
+import { supabase } from '../createClient';
+
 
 function ListBlogs() {
   const [blogs, setBlogs] = useState([]);
 
   const getBlogs = async () => {
     try {
-      const response = await fetch("http://localhost:1080/allblogs");
-      const jsonResponse = await response.json();
+      // const response = await fetch("http://localhost:1080/allblogs");
+      const {data} = await supabase.from('blog_entries').select();
+      const jsonResponse = JSON.stringify(data);
+      // const jsonResponse = await response.json();
       console.log(jsonResponse);
-      setBlogs(jsonResponse);
+      setBlogs(JSON.parse(jsonResponse));
     } catch (err) {
       console.log(err.message);
     }
@@ -23,7 +27,7 @@ function ListBlogs() {
 
   return (
     <div>
-      {blogs.map((blog) => (
+      {blogs.slice().reverse().map((blog) => (
         <a key={blog.resource_id} href={`/blog/${blog.resource_id}`}>
           {/* Adjust max-width and margin styles as needed */}
           <div key={blog.resource_id} className="mx-auto mt-8 bg-white border-t border-gray-300 pt-5" style={{ width: 560 }}>

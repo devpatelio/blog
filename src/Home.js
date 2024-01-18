@@ -1,14 +1,28 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import './App.css';
 import "./pages/bigCard.css";
 import ListBlogs from "./pages/ListBlogs";
 import bigCardStyle from "./pages/bigCard";
+import { supabase } from './createClient';
+
 
 function Home() {
-  const userName = process.env.REACT_APP_LOGIN_USERNAME;
-  const userPass = process.env.REACT_APP_LOGIN_PASSWORD;
-  console.log('Username:', userName);
-  console.log('Password:', userPass);
+
+  const [testRemoteData, setRemoteData] = useState([]);
+  const get_data = async () => {
+      const {data, error} = await supabase
+      .from('blog_entries')
+      .select()  
+      setRemoteData(data);
+      console.log(data);
+    };
+  
+    useEffect(() => {
+      get_data();
+    }, []);
+
+    console.log(testRemoteData)
+
     return (
         <div className="App flex flex-col min-h-screen">
           <header className="bg-gray-900 text-white p-4 flex justify-between items-center whitespace-no-wrap">

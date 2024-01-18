@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
+import { supabase } from './createClient';
 
 function NewPost() {
   const [title, setTitle] = useState('');
@@ -38,17 +39,18 @@ function NewPost() {
       post_date: post_date,
     };
 
-    const response = await fetch("http://localhost:1080/postblog", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
+    // const response = await fetch("http://localhost:1080/postblog", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify(body),
+    // });
 
+    const response = await supabase.from('blog_entries').insert(body);
     console.log(JSON.stringify(body));
     navigate("/");
 
     if (response.ok) {
-      const data = await response.json();
+      const data = await JSON.stringify(response);
       console.log("New resource added:", data);
     } else {
       console.error("Failed to add new resource");

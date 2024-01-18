@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { supabase } from './createClient';
 
 function DeletePost() {
   const { id } = useParams();
@@ -8,10 +9,10 @@ function DeletePost() {
   useEffect(() => {
     const deleteBlogPost = async () => {
       try {
-        const response = await fetch(`http://localhost:1080/allblogs/${id}`, {
-          method: "DELETE",
-        }); 
-
+        // const response = await fetch(`http://localhost:1080/allblogs/${id}`, {
+        //   method: "DELETE",
+        // }); 
+        const {data, error} = await supabase.from('blog_entries').delete().eq('resource_id', id);
         navigate("/");
         
       } catch (error) {

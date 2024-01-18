@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from 'react-router-dom';
+import { supabase } from './createClient';
 
 function BlogShow() {
-  const [blog, setBlog] = useState({});
+  const [blogs, setBlog] = useState([]);
   const { id } = useParams();
-  console.log(id);
+  // console.log(id);
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await fetch(`http://localhost:1080/allblogs/${id}`);
-        const data = await response.json();
-        setBlog(data);
+        // const response = await fetch(`http://localhost:1080/allblogs/${id}`);
+        // const data = await response.json();
+        // setBlog(data);
+
+        const {data, error} = await supabase.from('blog_entries').select().eq('resource_id', id);
+        console.log(data);
+        const response_data = JSON.stringify(data);
+        setBlog(JSON.parse(response_data));
       } catch (error) {
         console.error("Error fetching blog:", error);
       }
@@ -30,7 +36,8 @@ function BlogShow() {
         <a href="/post/d5oIQfpmBvyZLfIxONigsnoat6GtqCEq" className="text-gray-500 text-sm hover:text-white">Publish New Post</a>
         </div>
     </header>
-    <div className="flex-grow p-4 pt-10 mt-14" style={{ width: 700 }}> {/* Adjust max-width here */}
+    {blogs.slice().reverse().map((blog) => (
+       <div className="flex-grow p-4 pt-10 mt-14" style={{ width: 700 }}> {/* Adjust max-width here */}
         <h1 className="text-4xl font-bold mb-4">{blog.title}</h1>
         <p className="text-gray-900 mb-2">{blog.description}</p>
         <div className="flex items-center mb-4">
@@ -44,7 +51,7 @@ function BlogShow() {
         </div>
         <div className="border-b border-gray-500 mb-4"></div> {/* Horizontal divider */}
         <div className="text-black mb-4" dangerouslySetInnerHTML={{ __html: blog.content }}></div>
-    </div>
+    </div> ))}
     <footer className="bg-gray-900 text-white p-4 flex justify-between items-center w-full mt-10">
         <p className="ml-10 flex-grow">Produced by Dev Patel. <a className='text-lg'>♗</a></p>
         <div className="flex space-x-2">
